@@ -1,158 +1,110 @@
 <?php
 
-/**
- * Core Framework - RolesModel
- *
- * @license    MIT (https://mit-license.org/)
- * @author     Louis Ouellet <louis@laswitchtech.com>
- */
-
 // Import additionnal class into the global namespace
-use \LaswitchTech\Core\Abstracts\Model;
+use \LaswitchTech\Core\Base\BaseModel;
 
-class RolesModel extends Model {
+class RolesModel extends BaseModel {
 
     /**
-     * Retrieve the list of Roles
-     *
-     * @return array
+     * Constructor
      */
-    public function list(): array
+    public function __construct()
     {
-        // Retrieve the Roles
-        $Query = $this->Database->query()
-            ->table('roles')
-            ->select('*')
-            ->join('owner', 'users', 'username')
-            ->where('id', 9999, '<>');
+        // Call the parent constructor
+        parent::__construct();
 
-        // Fetch the Roles
-        $roles = $Query->fetch();
-
-        // Sanitize the Roles
-        foreach($roles as $key => $role){
-            $role['users'] = json_decode($role['users'] ?? '[]', true);
-            $role['groups'] = json_decode($role['groups'] ?? '[]', true);
-            $role['permissions'] = json_decode($role['permissions'] ?? '[]', true);
-            $roles[$key] = $role;
-        }
-
-        // Return the Roles
-        return $roles;
+        // Initialize the Model
+        $this->init('roles');
     }
 
     /**
-     * Retrieve Roles's Details
+     * Retrieve multiple records
      *
-     * @param int $id
-     * @param bool $all
+     * @param array $conditions
      * @return array
      */
-    public function get(int $id, bool $all = true): array
-    {
-        // Retrieve the Role
-        $Query = $this->Database->query()
-            ->table('roles')
-            ->select('*')
-            ->where('id', $id)
-            ->where('id', 9999, '<>')
-            ->limit(1);
-
-        // Fetch the Roles
-        $roles = $Query->fetch();
-
-        // Loop through the Roles
-        foreach($roles as $key => $role){
-
-            // Decode JSON Fields
-            $role['users'] = json_decode($role['users'] ?? '[]', true);
-            $role['groups'] = json_decode($role['groups'] ?? '[]', true);
-            $role['permissions'] = json_decode($role['permissions'] ?? '[]', true);
-
-            // Check if all the details should be retrieved
-            if($all){
-
-                // Arrange the permissions as a table
-                $permissions = [];
-                foreach($role['permissions'] as $permission => $level){
-                    $permissions[] = ["permission" => $permission, "level" => $level];
-                }
-                $role['permissions'] = $permissions;
-
-                // Retrieve the Users
-                $users = [];
-                foreach($role['users'] as $key => $user){
-
-                    // Retrieve the User
-                    $Query = $this->Database->query()
-                        ->table('users')
-                        ->select('*')
-                        ->join('owner', 'users', 'username')
-                        ->join('vcard', 'vcards', 'id')
-                        ->where('id', 9999, '<>')
-                        ->where('id', $user)
-                        ->limit(1);
-                    $users[$user] = $Query->fetch()[0] ?? [];
-                }
-                $role['users'] = $users;
-
-                // Retrieve the Groups
-                $groups = [];
-                foreach($role['groups'] as $key => $group){
-
-                    // Retrieve the User
-                    $Query = $this->Database->query()
-                        ->table('groups')
-                        ->select('*')
-                        ->join('owner', 'users', 'username')
-                        ->where('id', 9999, '<>')
-                        ->where('id', $group)
-                        ->limit(1);
-                    $groups[$group] = $Query->fetch()[0] ?? [];
-                }
-                $role['groups'] = $groups;
-
-                // Retrieve the Events
-                $Query = $this->Database->query()
-                    ->table('events')
-                    ->select('*')
-                    ->where('targetTable', 'roles')
-                    ->where('targetId', $role['id'])
-                    ->where('id', 9999, '<>')
-                    ->index('id');
-                $role['events'] = $Query->result();
-            }
-
-            // Save the Role
-            return $role;
-        }
-
-        // Return the Role
-        return [];
-    }
-
-    /**
-     * Create a new role and return the id
-     *
-     * @param array $data
-     * @return int
-     */
-    public function create(array $data): int
+    public function fetchAll(array $conditions = [], string $conjunction = 'AND'): array
     {
         // Create the Query
         $Query = $this->Database->query()
-            ->table('roles')
-            ->insert($data);
+            ->table($this->table)
+            ->select('*')
+            ->join('owner', 'users', 'username')
+            ->index($this->primary)
+            ->filter()
+            ->where('id', 9999, '<>');
 
-        // Execute the Query
-        $affectedRows = $Query->execute();
+        // Check if the conditions are empty
+        if(!empty($conditions)){
 
-        // Execute the Query
-        return $Query->lastId();
+            // Add a Filter
+            $Query->filter();
+
+            // Add the Conditions
+            foreach($conditions as $key => $condition){
+
+                // Check if the key exists in the definition
+                if(!array_key_exists($condition['key'], $this->definition)){
+
+                    // Remove the key from the data
+                    unset($conditions[$key]);
+                    continue;
+                }
+
+                // Add the condition to the Query
+                $Query->where($condition["key"], $condition["value"], $condition["operator"], $conjunction);
+            }
+        }
+
+        // Retrieve the Results
+        $records = $Query->fetch();
+
+        // Loop through the records to process them
+        foreach($records as $key => $record){
+
+            // Overwrite the record with the processed one
+            $records[$key] = $this->process($record);
+        }
+
+        // Return the Results
+        return $records;
     }
 
     /**
-     * Update a role
+     * Retrieve a single record
+     *
+     * @param int $id
+     * @return array
+     */
+    public function fetch(int $id): array
+    {
+        // Create the Query
+        $Query = $this->Database->query()
+            ->table($this->table)
+            ->select('*')
+            ->join('owner', 'users', 'username')
+            ->filter()
+            ->where('id', 9999, '<>')
+            ->filter()
+            ->where($this->primary, $id)
+            ->limit(1);
+
+        // Retrieve the record
+        $records = $Query->fetch();
+
+        // Loop through the records to process them
+        foreach($records as $key => $record){
+
+            // Overwrite the record with the processed one
+            $records[$key] = $this->process($record);
+        }
+
+        // Return the record or an empty array if not found
+        return $records[array_key_first($records)] ?? [];
+    }
+
+    /**
+     * Update a record
      *
      * @param int $id
      * @param array $data
@@ -160,71 +112,52 @@ class RolesModel extends Model {
      */
     public function update(int $id, array $data): int
     {
-        // Create the Query
-        $Query = $this->Database->query()
-            ->table('roles')
-            ->update($data)
-            ->where('id', $id);
+        // Sanitize the Data
+        foreach($data as $key => $value){
 
-        // Execute the Query
-        return $Query->execute();
-    }
+            // Add exceptions for specific fields
+            if(in_array($key, ['users','groups']) && is_array($value)){
 
-    /**
-     * Retrieve the list of Groups
-     *
-     * @return array
-     */
-    public function groups(): array
-    {
-        // Retrieve the Roles
-        $Query = $this->Database->query()
-            ->table('groups')
-            ->select('*')
-            ->join('owner', 'users', 'username')
-            ->where('id', 9999, '<>')
-            ->index('id');
+                // Loop through each value in the array
+                foreach($value as $subkey => $subvalue){
 
-        // Fetch the Roles
-        $groups = $Query->fetch();
+                    // Convert the value to an integer
+                    $value[$subkey] = (int)$subvalue;
+                }
 
-        // Sanitize the Roles
-        foreach($groups as $key => $group){
-            $group['users'] = json_decode($group['users'] ?? '[]', true);
-            $groups[$key] = $group;
+                // Filter unique user IDs
+                $value = array_unique($value);
+
+                // Sort the array
+                sort($value);
+            }
+
+            // Add exceptions for specific fields
+            if(in_array($key, ['permissions']) && is_array($value)){
+
+                // Loop through each value in the array
+                foreach($value as $subkey => $subvalue){
+
+                    // Convert the value to an integer
+                    $value[$subkey] = (int)$subvalue;
+                }
+
+                // Sort the array by key
+                ksort($value);
+            }
+
+            // Add exceptions for specific fields
+            if(in_array($key, ['isDefault'])){
+
+                // Filter boolean
+                $value = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+            }
+
+            // Set the value back to the data array
+            $data[$key] = $value;
         }
 
-        // Return the Groups
-        return $groups;
-    }
-
-    /**
-     * Retrieve the list of Users
-     *
-     * @return array
-     */
-    public function users(): array
-    {
-        // Retrieve the Roles
-        $Query = $this->Database->query()
-            ->table('users')
-            ->select('*')
-            ->join('owner', 'users', 'username')
-            ->join('vcard', 'vcards', 'id')
-            ->where('id', 9999, '<>')
-            ->index('id');
-
-        // Fetch the Roles
-        $users = $Query->fetch();
-
-        // Sanitize the Roles
-        foreach($users as $key => $user){
-            $user['vcard']['tags'] = json_decode($user['vcard']['tags'] ?? '[]', true);
-            $user['vcard']['industries'] = json_decode($user['vcard']['industries'] ?? '[]', true);
-            $users[$key] = $user;
-        }
-
-        // Return the Users
-        return $users;
+        // Call the parent update method
+        return parent::update($id, $data);
     }
 }
