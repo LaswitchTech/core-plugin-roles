@@ -1,14 +1,8 @@
-<!--
-  Core Framework - View File
-
-  @license    MIT (https://mit-license.org/)
-  @author     Louis Ouellet <louis@laswitchtech.com>
--->
 <div class="col-12" id="layout"></div>
 <script>
     $(document).ready(function(){
         $.ajax({
-            url: '/endpoint.php/roles/fetch?id=<?= $this->Request->getParams('GET', 'id') ?>',
+            url: '/api/roles/fetch?id=<?= $this->Request->getParams('GET', 'id') ?>',
             type: 'GET',dataType: 'json',
             error: function(xhr, status, error) {
                 let color = 'info', icon = 'question-circle', title = builder.Locale.get(xhr.statusText), content = builder.Locale.get(xhr.responseText);
@@ -20,7 +14,11 @@
                 builder.Component("alert","#layout",{icon:icon,color:color,title:title},function(alert,component){component.content.html('<pre class="m-0 p-2">'+content+'</pre>');});
             },
             success: function(response) {
-                console.log(response);
+
+                // Configure Storage
+                builder.Storage.setKey('role:'+response.record.id);
+                builder.Storage.set(response);
+                console.log(builder.Storage.get())
 
                 // Set the color, icon and label
                 var color = ['secondary','primary','success','warning','danger'];
@@ -112,14 +110,11 @@
 
                                                     // AJAX Request
                                                     $.ajax({
-                                                        url: '/endpoint.php/roles/update?id='+response.record.id,
+                                                        url: '/api/roles/update?id='+builder.Storage.get('record:id'),
+                                                        headers: {'X-CSRF-Authorization': CSRF_KEY},
                                                         type: 'POST',dataType: 'json',
                                                         data: form.val(),
                                                         success: function(response) {
-
-                                                            // Update the CSRF Token
-                                                            CSRF_KEY = response.CSRF.key;
-                                                            CSRF_TOKEN = response.CSRF.token;
 
                                                             // Hide the modal
                                                             modal.hide();
@@ -129,20 +124,6 @@
                                             },
                                         },
                                         function(form,component){
-
-                                            // csrf
-                                            form.add(
-                                                {
-                                                    name: CSRF_KEY,
-                                                    label: 'csrf',
-                                                    icon: 'hash',
-                                                    type: 'hidden',
-                                                    value: CSRF_TOKEN,
-                                                },
-                                                function(input,form){
-                                                    input.css('display','none');
-                                                },
-                                            );
 
                                             // name
                                             form.add(
@@ -239,7 +220,6 @@
 
                                                     // Update the table
                                                     data.level = 0;
-                                                    table.update(row,data);
 
                                                     // Retrieve the permissions
                                                     var permissions = {};
@@ -251,18 +231,17 @@
                                                     var ajaxData = {
                                                         permissions: permissions,
                                                     };
-                                                    ajaxData[CSRF_KEY] = CSRF_TOKEN;
 
                                                     // AJAX Request
                                                     $.ajax({
-                                                        url: '/endpoint.php/roles/update?id='+response.record.id,
+                                                        url: '/api/roles/update?id='+builder.Storage.get('record:id'),
+                                                        headers: {'X-CSRF-Authorization': CSRF_KEY},
                                                         type: 'POST',dataType: 'json',
                                                         data: ajaxData,
                                                         success: function(response) {
 
-                                                            // Update the CSRF Token
-                                                            CSRF_KEY = response.CSRF.key;
-                                                            CSRF_TOKEN = response.CSRF.token;
+                                                            // Update the table
+                                                            table.update(row,data);
                                                         }
                                                     });
                                                 },
@@ -277,7 +256,6 @@
 
                                                     // Update the table
                                                     data.level = 1;
-                                                    table.update(row,data);
 
                                                     // Retrieve the permissions
                                                     var permissions = {};
@@ -289,18 +267,17 @@
                                                     var ajaxData = {
                                                         permissions: permissions,
                                                     };
-                                                    ajaxData[CSRF_KEY] = CSRF_TOKEN;
 
                                                     // AJAX Request
                                                     $.ajax({
-                                                        url: '/endpoint.php/roles/update?id='+response.record.id,
+                                                        url: '/api/roles/update?id='+builder.Storage.get('record:id'),
+                                                        headers: {'X-CSRF-Authorization': CSRF_KEY},
                                                         type: 'POST',dataType: 'json',
                                                         data: ajaxData,
                                                         success: function(response) {
 
-                                                            // Update the CSRF Token
-                                                            CSRF_KEY = response.CSRF.key;
-                                                            CSRF_TOKEN = response.CSRF.token;
+                                                            // Update the table
+                                                            table.update(row,data);
                                                         }
                                                     });
                                                 },
@@ -315,7 +292,6 @@
 
                                                     // Update the table
                                                     data.level = 2;
-                                                    table.update(row,data);
 
                                                     // Retrieve the permissions
                                                     var permissions = {};
@@ -327,18 +303,17 @@
                                                     var ajaxData = {
                                                         permissions: permissions,
                                                     };
-                                                    ajaxData[CSRF_KEY] = CSRF_TOKEN;
 
                                                     // AJAX Request
                                                     $.ajax({
-                                                        url: '/endpoint.php/roles/update?id='+response.record.id,
+                                                        url: '/api/roles/update?id='+builder.Storage.get('record:id'),
+                                                        headers: {'X-CSRF-Authorization': CSRF_KEY},
                                                         type: 'POST',dataType: 'json',
                                                         data: ajaxData,
                                                         success: function(response) {
 
-                                                            // Update the CSRF Token
-                                                            CSRF_KEY = response.CSRF.key;
-                                                            CSRF_TOKEN = response.CSRF.token;
+                                                            // Update the table
+                                                            table.update(row,data);
                                                         }
                                                     });
                                                 },
@@ -353,7 +328,6 @@
 
                                                     // Update the table
                                                     data.level = 3;
-                                                    table.update(row,data);
 
                                                     // Retrieve the permissions
                                                     var permissions = {};
@@ -365,18 +339,17 @@
                                                     var ajaxData = {
                                                         permissions: permissions,
                                                     };
-                                                    ajaxData[CSRF_KEY] = CSRF_TOKEN;
 
                                                     // AJAX Request
                                                     $.ajax({
-                                                        url: '/endpoint.php/roles/update?id='+response.record.id,
+                                                        url: '/api/roles/update?id='+builder.Storage.get('record:id'),
+                                                        headers: {'X-CSRF-Authorization': CSRF_KEY},
                                                         type: 'POST',dataType: 'json',
                                                         data: ajaxData,
                                                         success: function(response) {
 
-                                                            // Update the CSRF Token
-                                                            CSRF_KEY = response.CSRF.key;
-                                                            CSRF_TOKEN = response.CSRF.token;
+                                                            // Update the table
+                                                            table.update(row,data);
                                                         }
                                                     });
                                                 },
@@ -391,7 +364,6 @@
 
                                                     // Update the table
                                                     data.level = 4;
-                                                    table.update(row,data);
 
                                                     // Retrieve the permissions
                                                     var permissions = {};
@@ -403,18 +375,17 @@
                                                     var ajaxData = {
                                                         permissions: permissions,
                                                     };
-                                                    ajaxData[CSRF_KEY] = CSRF_TOKEN;
 
                                                     // AJAX Request
                                                     $.ajax({
-                                                        url: '/endpoint.php/roles/update?id='+response.record.id,
+                                                        url: '/api/roles/update?id='+builder.Storage.get('record:id'),
+                                                        headers: {'X-CSRF-Authorization': CSRF_KEY},
                                                         type: 'POST',dataType: 'json',
                                                         data: ajaxData,
                                                         success: function(response) {
 
-                                                            // Update the CSRF Token
-                                                            CSRF_KEY = response.CSRF.key;
-                                                            CSRF_TOKEN = response.CSRF.token;
+                                                            // Update the table
+                                                            table.update(row,data);
                                                         }
                                                     });
                                                 },
@@ -423,9 +394,6 @@
                                                 label:builder.Locale.get('Remove'),
                                                 icon:'trash',
                                                 action:function(event, table, dt, node, row, data){
-
-                                                    // Update the table
-                                                    table.delete(row);
 
                                                     // Retrieve the permissions
                                                     var permissions = {};
@@ -439,18 +407,17 @@
                                                     var ajaxData = {
                                                         permissions: permissions,
                                                     };
-                                                    ajaxData[CSRF_KEY] = CSRF_TOKEN;
 
                                                     // AJAX Request
                                                     $.ajax({
-                                                        url: '/endpoint.php/roles/update?id='+response.record.id,
+                                                        url: '/api/roles/update?id='+builder.Storage.get('record:id'),
+                                                        headers: {'X-CSRF-Authorization': CSRF_KEY},
                                                         type: 'POST',dataType: 'json',
                                                         data: ajaxData,
                                                         success: function(response) {
 
-                                                            // Update the CSRF Token
-                                                            CSRF_KEY = response.CSRF.key;
-                                                            CSRF_TOKEN = response.CSRF.token;
+                                                            // Update the table
+                                                            table.delete(row);
                                                         }
                                                     });
                                                 },
@@ -480,7 +447,7 @@
 
                                                         // Build options
                                                         var options = [];
-                                                        for(const [key, record] of Object.entries(response.permissions ?? {})){
+                                                        for(const [key, record] of Object.entries(builder.Storage.get('dependencies:permissions') ?? {})){
                                                             if(permissions[record] === undefined){
                                                                 options.push({id: record, text: record});
                                                             }
@@ -546,18 +513,14 @@
                                                                                 var ajaxData = {
                                                                                     permissions: rights,
                                                                                 };
-                                                                                ajaxData[CSRF_KEY] = CSRF_TOKEN;
 
                                                                                 // AJAX Request
                                                                                 $.ajax({
-                                                                                    url: '/endpoint.php/roles/update?id='+response.record.id,
+                                                                                    url: '/api/roles/update?id='+builder.Storage.get('record:id'),
+                                                                                    headers: {'X-CSRF-Authorization': CSRF_KEY},
                                                                                     type: 'POST',dataType: 'json',
                                                                                     data: ajaxData,
                                                                                     success: function(response) {
-
-                                                                                        // Update the CSRF Token
-                                                                                        CSRF_KEY = response.CSRF.key;
-                                                                                        CSRF_TOKEN = response.CSRF.token;
 
                                                                                         // Hide the modal
                                                                                         modal.hide();
@@ -626,8 +589,8 @@
                                         },
                                     },
                                     function(table,component){
-                                        for(const [key, record] of Object.entries(response.record.permissions ?? {})){
-                                            table.add(record);
+                                        for(const [permission, level] of Object.entries(builder.Storage.get('record:permissions') ?? {})){
+                                            table.add({permission: permission, level: level});
                                         }
                                     },
                                 );
@@ -653,9 +616,6 @@
                                         icon:'trash',
                                         action:function(event, table, dt, node, row, data){
 
-                                            // Update the table
-                                            table.delete(row);
-
                                             // Retrieve the groups
                                             var groups = [];
                                             for(const [key, record] of Object.entries(table.data())){
@@ -668,18 +628,17 @@
                                             var ajaxData = {
                                                 groups: JSON.stringify(groups),
                                             };
-                                            ajaxData[CSRF_KEY] = CSRF_TOKEN;
 
                                             // AJAX Request
                                             $.ajax({
-                                                url: '/endpoint.php/roles/update?id='+response.record.id,
+                                                url: '/api/roles/update?id='+builder.Storage.get('record:id'),
+                                                headers: {'X-CSRF-Authorization': CSRF_KEY},
                                                 type: 'POST',dataType: 'json',
                                                 data: ajaxData,
                                                 success: function(response) {
 
-                                                    // Update the CSRF Token
-                                                    CSRF_KEY = response.CSRF.key;
-                                                    CSRF_TOKEN = response.CSRF.token;
+                                                    // Update the table
+                                                    table.delete(row);
                                                 }
                                             });
                                         },
@@ -717,9 +676,15 @@
 
                                                         // AJAX Request
                                                         $.ajax({
-                                                            url: '/endpoint.php/roles/groups',
-                                                            type: 'GET',dataType: 'json',
-                                                            success: function(groups) {
+                                                            url: '/api/groups/fetchAll',
+                                                            headers: {'X-CSRF-Authorization': CSRF_KEY},
+                                                            type: 'POST',dataType: 'json',
+                                                            data: {
+                                                                conditions: [
+                                                                    {key: 'isArchived', operator: '<>', value: 1},
+                                                                ]
+                                                            },
+                                                            success: function(response) {
 
                                                                 // Retrieve existing members
                                                                 var members = []
@@ -729,7 +694,7 @@
 
                                                                 // Build options
                                                                 var options = [];
-                                                                for(const [key, group] of Object.entries(groups)){
+                                                                for(const [key, group] of Object.entries(response.records)){
                                                                     if($.inArray(group.id, members) === -1){
                                                                         options.push({id: group.id, text: group.name+' - '+group.description});
                                                                     }
@@ -773,27 +738,18 @@
                                                                                     submit: function(form){
 
                                                                                         // Add the record to the table
-                                                                                        dt.row.add(groups[form.val()]).draw();
+                                                                                        dt.row.add(response.records[form.val()]).draw();
 
                                                                                         // Add the group to the list of members
                                                                                         members.push(form.val());
 
-                                                                                        // Set the AJAX DATA
-                                                                                        var ajaxData = {
-                                                                                            groups: members,
-                                                                                        };
-                                                                                        ajaxData[CSRF_KEY] = CSRF_TOKEN;
-
                                                                                         // AJAX Request
                                                                                         $.ajax({
-                                                                                            url: '/endpoint.php/roles/update?id='+response.record.id,
+                                                                                            url: '/api/roles/update?id='+builder.Storage.get('record:id'),
+                                                                                            headers: {'X-CSRF-Authorization': CSRF_KEY},
                                                                                             type: 'POST',dataType: 'json',
-                                                                                            data: ajaxData,
+                                                                                            data: {groups: members},
                                                                                             success: function(response) {
-
-                                                                                                // Update the CSRF Token
-                                                                                                CSRF_KEY = response.CSRF.key;
-                                                                                                CSRF_TOKEN = response.CSRF.token;
 
                                                                                                 // Hide the modal
                                                                                                 modal.hide();
@@ -833,7 +789,7 @@
                                         },
                                     },
                                     function(table,component){
-                                        for(const [key, record] of Object.entries(response.record.groups ?? {})){
+                                        for(const [key, record] of Object.entries(builder.Storage.get('dependencies:groups') ?? {})){
                                             table.add(record);
                                         }
                                     },
@@ -860,9 +816,6 @@
                                         icon:'trash',
                                         action:function(event, table, dt, node, row, data){
 
-                                            // Update the table
-                                            table.delete(row);
-
                                             // Retrieve the users
                                             var users = [];
                                             for(const [key, record] of Object.entries(table.data())){
@@ -871,22 +824,16 @@
                                                 }
                                             }
 
-                                            // Set the AJAX DATA
-                                            var ajaxData = {
-                                                users: JSON.stringify(users),
-                                            };
-                                            ajaxData[CSRF_KEY] = CSRF_TOKEN;
-
                                             // AJAX Request
                                             $.ajax({
-                                                url: '/endpoint.php/roles/update?id='+response.record.id,
+                                                url: '/api/roles/update?id='+builder.Storage.get('record:id'),
+                                                headers: {'X-CSRF-Authorization': CSRF_KEY},
                                                 type: 'POST',dataType: 'json',
-                                                data: ajaxData,
+                                                data: {users: JSON.stringify(users)},
                                                 success: function(response) {
 
-                                                    // Update the CSRF Token
-                                                    CSRF_KEY = response.CSRF.key;
-                                                    CSRF_TOKEN = response.CSRF.token;
+                                                    // Update the table
+                                                    table.delete(row);
                                                 }
                                             });
                                         },
@@ -923,9 +870,9 @@
 
                                                         // AJAX Request
                                                         $.ajax({
-                                                            url: '/endpoint.php/roles/users',
+                                                            url: '/api/auth/users',
                                                             type: 'GET',dataType: 'json',
-                                                            success: function(users) {
+                                                            success: function(response) {
 
                                                                 // Retrieve existing members
                                                                 var members = []
@@ -935,7 +882,7 @@
 
                                                                 // Build options
                                                                 var options = [];
-                                                                for(const [key, user] of Object.entries(users)){
+                                                                for(const [key, user] of Object.entries(response.records)){
                                                                     if($.inArray(user.id, members) === -1){
                                                                         options.push({id: user.id, text: user.username+' - '+user.vcard.name});
                                                                     }
@@ -979,27 +926,18 @@
                                                                                     submit: function(form){
 
                                                                                         // Add the record to the table
-                                                                                        dt.row.add(users[form.val()]).draw();
+                                                                                        dt.row.add(response.records[form.val()]).draw();
 
                                                                                         // Add the user to the list of members
                                                                                         members.push(form.val());
 
-                                                                                        // Set the AJAX DATA
-                                                                                        var ajaxData = {
-                                                                                            users: members,
-                                                                                        };
-                                                                                        ajaxData[CSRF_KEY] = CSRF_TOKEN;
-
                                                                                         // AJAX Request
                                                                                         $.ajax({
-                                                                                            url: '/endpoint.php/roles/update?id='+response.record.id,
+                                                                                            url: '/api/roles/update?id='+builder.Storage.get('record:id'),
+                                                                                            headers: {'X-CSRF-Authorization': CSRF_KEY},
                                                                                             type: 'POST',dataType: 'json',
-                                                                                            data: ajaxData,
+                                                                                            data: {users: members},
                                                                                             success: function(response) {
-
-                                                                                                // Update the CSRF Token
-                                                                                                CSRF_KEY = response.CSRF.key;
-                                                                                                CSRF_TOKEN = response.CSRF.token;
 
                                                                                                 // Hide the modal
                                                                                                 modal.hide();
@@ -1039,7 +977,7 @@
                                         },
                                     },
                                     function(table,component){
-                                        for(const [key, record] of Object.entries(response.record.users ?? {})){
+                                        for(const [key, record] of Object.entries(builder.Storage.get('dependencies:users') ?? {})){
                                             table.add(record);
                                         }
                                     },
@@ -1054,7 +992,20 @@
                             },
                             function(tab,nav){
                                 tab.addClass('px-4 py-3');
-                                EventFeed(response.record.events ?? {}, tab);
+                                EventFeed(builder.Storage.get('dependencies:event') ?? {}, tab);
+                            },
+                        );
+                        tabs.add(
+                            'related',
+                            {
+                                icon: "diagram-2",
+                                label: builder.Locale.get("Related"),
+                            },
+                            function(tab,nav){
+                                tab.addClass('px-4 py-3');
+                                RelationshipFeed(builder.Storage.getKey(), tab, function(feed){
+                                    // card.related.feed = feed;
+                                });
                             },
                         );
                     },
