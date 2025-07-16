@@ -38,7 +38,7 @@ class RolesEndpoint extends BaseEndpoint {
                 $message['data']['dependencies']['users'] = [];
 
                 // Loop through the users to fetch them.
-                foreach($message['data']['record']['users'] as $id){
+                foreach($message['data']['record']['users'] ?? [] as $id){
                     $message['data']['dependencies']['users'][$id] = $this->Model->Users->fetch($id);
                 }
 
@@ -53,7 +53,7 @@ class RolesEndpoint extends BaseEndpoint {
                 $message['data']['dependencies']['groups'] = [];
 
                 // Loop through the groups to fetch them.
-                foreach($message['data']['record']['groups'] as $id){
+                foreach($message['data']['record']['groups'] ?? [] as $id){
                     $message['data']['dependencies']['groups'][$id] = $this->Model->Groups->fetch($id);
                 }
 
