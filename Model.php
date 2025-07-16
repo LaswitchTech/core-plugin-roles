@@ -60,6 +60,13 @@ class RolesModel extends BaseModel {
                 ksort($value);
             }
 
+            // Check if permissions is not an array
+            if(in_array($key, ['permissions']) && !is_array($value)){
+
+                // Create an empty array
+                $value = [];
+            }
+
             // Add exceptions for specific fields
             if(in_array($key, ['isDefault'])){
 
