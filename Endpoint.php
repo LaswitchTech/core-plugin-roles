@@ -61,6 +61,15 @@ class RolesEndpoint extends BaseEndpoint {
                 $message['data']['record']['groups'] = $message['data']['dependencies']['groups'];
             }
 
+            // Check if the Notes is accessible
+            if($this->Helper->Core->isInstalled('notes')){
+                $message['data']['dependencies']['notes'] = $this->Model->Notes->fetchAll([
+                    ["key" => "targetTable", "operator" => "=", "value" => $this->basename],
+                    ["key" => "targetId", "operator" => "=", "value" => $message['data']['record']['id']],
+                    ["key" => "isArchived", "operator" => "<>", "value" => 1],
+                ]);
+            }
+
             // Check if the Relationship Plugin is accessible
             if($this->Helper->Core->isInstalled('relationship')){
                 $message['data']['dependencies']['relationship'] = $this->Model->Relationship->get($this->basename, $message['data']['record']['id']);
