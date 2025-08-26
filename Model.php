@@ -18,6 +18,32 @@ class RolesModel extends BaseModel {
     }
 
     /**
+     * Process a record
+     *
+     * @param array $record
+     * @return array
+     */
+    protected function process(array $record): array
+    {
+        // Call the parent constructor
+        $record = parent::process($record);
+
+        // Process the JSON fields
+        if(!is_array($record['users'])){
+            $record['users'] = json_decode($record['users'] ?? "[]", true);
+        }
+        if(!is_array($record['groups'])){
+            $record['groups'] = json_decode($record['groups'] ?? "[]", true);
+        }
+        if(!is_array($record['permissions'])){
+            $record['permissions'] = json_decode($record['permissions'] ?? "[]", true);
+        }
+
+        // Return the processed record
+        return $record;
+    }
+
+    /**
      * Update a record
      *
      * @param int $id
