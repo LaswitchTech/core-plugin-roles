@@ -15,13 +15,13 @@
     {
         "id": 2,
         "created": "2025-04-07 15:10:38",
-        "modified": "2025-08-29 10:03:55",
+        "modified": "2025-09-24 16:06:29",
         "owner": "demo",
         "name": "User",
         "description": "This role is applied to all users",
         "users": null,
         "groups": "[2]",
-        "permissions": "{\"Route>/\": 1, \"Route>/profile\": 1, \"Route>/files/get\": 1, \"Route>/plugin/tasks\": 1, \"Endpoint>/auth/users\": 3, \"Endpoint>/locale/get\": 1, \"Controller>/files/get\": 1, \"Endpoint>/notes/fetch\": 1, \"Endpoint>/tasks/count\": 1, \"Endpoint>/tasks/fetch\": 1, \"Endpoint>/notes/create\": 2, \"Endpoint>/notes/update\": 3, \"Endpoint>/vcards/fetch\": 1, \"Endpoint>/files/archive\": 4, \"Endpoint>/library/fetch\": 1, \"Endpoint>/notes/archive\": 4, \"Endpoint>/profile/fetch\": 1, \"Endpoint>/vcards/update\": 3, \"Endpoint>/auth/setActive\": 3, \"Endpoint>/contacts/fetch\": 1, \"Endpoint>/dashboard/save\": 3, \"Endpoint>/event/fetchAll\": 1, \"Endpoint>/files/fetchAll\": 1, \"Endpoint>/locale/current\": 1, \"Endpoint>/locale/locales\": 1, \"Endpoint>/notes/fetchAll\": 1, \"Endpoint>/tasks/fetchAll\": 1, \"Endpoint>/contacts/create\": 2, \"Endpoint>/contacts/update\": 3, \"Endpoint>/dashboard/fetch\": 1, \"Endpoint>/documents/fetch\": 1, \"Endpoint>/auth/setInactive\": 3, \"Endpoint>/contacts/archive\": 4, \"Endpoint>/locale/timezones\": 1, \"Endpoint>/followups/fetchAll\": 1, \"Endpoint>/categories/fetchAll\": 1, \"Endpoint>/locale/translations\": 1}",
+        "permissions": "{\"Route>/\": 1, \"Route>/profile\": 1, \"Route>/files/get\": 1, \"Route>/plugin/tasks\": 1, \"Endpoint>/auth/users\": 3, \"Endpoint>/locale/get\": 1, \"Controller>/files/get\": 1, \"Endpoint>/notes/fetch\": 1, \"Endpoint>/tasks/count\": 1, \"Endpoint>/tasks/fetch\": 1, \"Endpoint>/notes/create\": 2, \"Endpoint>/notes/update\": 3, \"Endpoint>/vcards/fetch\": 1, \"Endpoint>/files/archive\": 4, \"Endpoint>/library/fetch\": 1, \"Endpoint>/notes/archive\": 4, \"Endpoint>/profile/fetch\": 1, \"Endpoint>/vcards/update\": 3, \"Endpoint>/auth/setActive\": 3, \"Endpoint>/contacts/fetch\": 1, \"Endpoint>/dashboard/save\": 3, \"Endpoint>/event/fetchAll\": 1, \"Endpoint>/files/fetchAll\": 1, \"Endpoint>/locale/current\": 1, \"Endpoint>/locale/locales\": 1, \"Endpoint>/notes/fetchAll\": 1, \"Endpoint>/tasks/fetchAll\": 1, \"Endpoint>/contacts/create\": 2, \"Endpoint>/contacts/update\": 3, \"Endpoint>/dashboard/fetch\": 1, \"Endpoint>/documents/fetch\": 1, \"Endpoint>/auth/setInactive\": 3, \"Endpoint>/contacts/archive\": 4, \"Endpoint>/locale/timezones\": 1, \"Endpoint>/documents/fetchAll\": 1, \"Endpoint>/followups/fetchAll\": 1, \"Endpoint>/categories/fetchAll\": 1, \"Endpoint>/locale/translations\": 1}",
         "isDefault": 1,
         "isArchived": 0
     },
