@@ -15,6 +15,7 @@ class RolesPostModel extends RolesModel {
 
             // Handle specific fields
             switch($key){
+                case 'id':
                 case 'users':
                 case 'groups':
                     break;
