@@ -3,7 +3,7 @@
     (function () {
         $(document).ready(function(){
             builder.Layout('index',"#layout",{
-                url: '/api/roles/fetchAll',
+                endpoint: '/roles/fetchAll',
                 conditions: [
                     {key: 'isArchived', operator: '<>', value: 1},
                 ],
