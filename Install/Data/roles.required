@@ -67,13 +67,13 @@
     {
         "id": 6,
         "created": "2025-04-07 15:10:38",
-        "modified": "2025-10-21 09:44:28",
+        "modified": "2025-10-21 15:17:49",
         "owner": "demo",
         "name": "Marketing Manager",
         "description": "This role is applied to marketing managers",
         "users": null,
         "groups": "[6, 10]",
-        "permissions": "{\"Route>/crm/leads\": 1, \"Route>/crm/clients\": 1, \"Route>/crm/prospects\": 1, \"Endpoint>/leads/create\": 2, \"Endpoint>/tasks/update\": 3, \"Route>/crm/leads/index\": 1, \"Endpoint>/leads/archive\": 4, \"Endpoint>/tasks/archive\": 4, \"Endpoint>/tasks/promote\": 3, \"Route>/crm/leads/closed\": 1, \"Endpoint>/leads/fetchAll\": 1, \"Route>/crm/clients/index\": 1, \"Route>/crm/leads/details\": 1, \"Endpoint>/vcards/describe\": 1, \"Route>/crm/leads/archived\": 1, \"Endpoint>/services/archive\": 4, \"Route>/crm/clients/details\": 1, \"Endpoint>/documents/archive\": 4, \"Route>/crm/prospects/details\": 1, \"Endpoint>/relationship/remove\": 4, \"Route>/crm/leads/closed/details\": 1, \"Route>/crm/leads/archived/details\": 1}",
+        "permissions": "{\"Route>/crm/leads\": 1, \"Route>/crm/clients\": 1, \"Route>/crm/prospects\": 1, \"Endpoint>/leads/create\": 2, \"Endpoint>/tasks/update\": 3, \"Route>/crm/leads/index\": 1, \"Endpoint>/files/archive\": 4, \"Endpoint>/leads/archive\": 4, \"Endpoint>/tasks/archive\": 4, \"Endpoint>/tasks/promote\": 3, \"Route>/crm/leads/closed\": 1, \"Endpoint>/leads/fetchAll\": 1, \"Route>/crm/clients/index\": 1, \"Route>/crm/leads/details\": 1, \"Endpoint>/vcards/describe\": 1, \"Route>/crm/leads/archived\": 1, \"Endpoint>/contacts/archive\": 4, \"Endpoint>/services/archive\": 4, \"Route>/crm/clients/details\": 1, \"Endpoint>/documents/archive\": 4, \"Route>/crm/prospects/details\": 1, \"Endpoint>/relationship/remove\": 4, \"Route>/crm/leads/closed/details\": 1, \"Route>/crm/leads/archived/details\": 1}",
         "isDefault": 0,
         "isArchived": 0
     },
